@@ -1,0 +1,11 @@
+{
+  "name": "shopeasebackend",
+  "version": "1.0.0",
+  "description": "Backend for shopeasebackend",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aakrit",
+  "license": "ISC"
+}
