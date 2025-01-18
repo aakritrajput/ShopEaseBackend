@@ -11,9 +11,6 @@ connectDB().then(()=>{
         console.log("ERROR: ", error);
         throw error ;
     })
-    app.get("/", (req, res)=> {
-        res.send("hi you are on ShopEase's home page !!")
-    })
     app.listen(process.env.PORT || 5000 , ()=>{
         console.log(`Server is running on port ${process.env.PORT || 5000}`);
     });
