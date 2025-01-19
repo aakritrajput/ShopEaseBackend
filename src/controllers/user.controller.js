@@ -444,3 +444,23 @@ const getUserNotificaton = asyncHandler(async(req, res)=> {
         res.status(error.statusCode || 500).json(error.message || "error fetching user notifications !!")
     }
 })
+
+export {
+    registerUser,
+    verifyToken,
+    loginUser,
+    resendVerificationLink,
+    logoutUser,
+    changePassword,
+    sendPassWordChangeOTP,
+    verifyPassWordChangeOTP,
+    resetPassword,
+    getCurrentUserProfile,
+    deleteAccount,
+    updateAddress,
+    updateProfile,
+    addPhone,
+    sendPhoneOtp,
+    verifyPhoneOtp,
+    getUserNotificaton
+}
