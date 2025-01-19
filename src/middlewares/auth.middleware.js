@@ -14,7 +14,7 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
 
         // Verify the access token
         const decodedToken = jwt.verify(accessToken, process.env.ACCESS_TOKEN_SECRET);
-        const user = await User.findById(decodedToken?._id).select("-password -otp -otpExpiry");
+        const user = await User.findById(decodedToken?.id).select("-password -otp -otpExpiry");
         if (!user) {
             throw new ApiError(401, "Invalid access token - User not found");
         }
@@ -33,7 +33,7 @@ const verifyJWT = asyncHandler(async (req, res, next) => {
 
                 // Verify the refresh token
                 const decodedToken = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET);
-                const user = await User.findById(decodedToken?._id).select("-password -refreshToken");
+                const user = await User.findById(decodedToken?.id).select("-password -refreshToken");
                 if (!user) {
                     throw new ApiError(401, "Invalid refresh token - User not found");
                 }

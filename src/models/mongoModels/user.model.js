@@ -19,11 +19,11 @@ const userSchema = new Schema({
     role: {
         type: String,
         required: true,
+        enum: ['customer', 'seller'],
         default: "customer"
     },
     phone: {
-        type: String,
-        required: true
+        type: String
     },
     address: [{
         fullname: {
@@ -49,7 +49,21 @@ const userSchema = new Schema({
             type: String,
             required: true
         }
-    }]
+    }],
+    isEmailVerified : {
+        type: Boolean,
+        default: false
+    },
+    isPhoneVerified: {
+        type: Boolean,
+        default: false
+    },
+    otp: {
+        type: Number
+    },
+    otpExpiry: {
+        type: Date
+    }
 }, {timestamps: true});
 
 userSchema.pre("save", async function(next){
