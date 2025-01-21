@@ -1,13 +1,13 @@
 import jwt from "jsonwebtoken";
-import { asyncHandler } from "../utils/AsyncHandler.utils.js";
+import  asyncHandler  from "../utils/AsyncHandler.utils.js";
 import { User } from "../models/mongoModels/user.model.js";
-import {ApiError} from "../utils/ApiError.utils.js";
+import ApiError from "../utils/ApiError.utils.js";
 
 const verifyJWT = asyncHandler(async (req, res, next) => {
     try {
         // Retrieve the access token
         const accessToken = req.cookies?.accessToken || req.headers.authorization?.split(" ")[1];
-        console.log('req:', req.cookies)
+        //console.log('req:', req.cookies)
         if (!accessToken) {
             throw new ApiError(401, "Unauthorized request - No access token provided");
         }

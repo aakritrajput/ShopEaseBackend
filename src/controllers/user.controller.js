@@ -5,15 +5,16 @@ import { User } from "../models/mongoModels/user.model.js"
 import jwt from "jsonwebtoken"
 import sendSms from "../services/sms.service.js"
 import {getNotifications} from "../utils/notification.utils.js"
+import nodemailer from "nodemailer"
 
 const generateVerificationToken = (email) => {
     const token = jwt.sign({email}, process.env.VERIFICATION_TOKEN_SECRET , { expiresIn: process.env.VERIFICATION_TOKEN_EXPIRY });
     return token;
-  };
+};
 
 const sendVerificationEmail = async (email, token) => {
     try {
-      const verificationLink = `http://localhost:3000/api/v1/verifyEmail?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
+      const verificationLink = `http://localhost:3000/api/v1/user/verifyEmail?token=${encodeURIComponent(token)}&email=${encodeURIComponent(email)}`;
       const transporter = nodemailer.createTransport({
         service: "gmail", 
         auth: {
@@ -116,7 +117,7 @@ const verifyToken = asyncHandler(async(req,res)=>{
             console.log("token.email: ", token.email, "user.email: ", user.email)
             throw new ApiError(400, "email in token does not match with the email in the database")
         }
-        user[0].isVarified = true;
+        user[0].isEmailVerified = true;
         await user[0].save({validateBeforeSave: false})
         res.status(200).json(new ApiResponse(200, {}, "email successfully verified !!"))
     } catch (error) {
@@ -127,13 +128,13 @@ const verifyToken = asyncHandler(async(req,res)=>{
 const loginUser = asyncHandler(async(req, res)=>{
     try {
         const {emailOrPhone, password} = req.body
-        if(!emailOrUsername || !password){
+        if(!emailOrPhone || !password){
             throw new ApiError(400, "Both email or phone and password is required !!")
         }
     
         const user = await User.find({
             $or : [
-                {email: emailOrUsername},{phone: emailOrUsername}
+                {email: emailOrPhone},{phone: emailOrPhone}
             ]
         })
     
@@ -141,7 +142,7 @@ const loginUser = asyncHandler(async(req, res)=>{
             throw new ApiError(400, "user with the given email or phone does not exist!!")
         }
     
-        if(user[0].isVarified === false){
+        if(user[0].isEmailVerified === false){
             throw new ApiError(402, "Your email is not verified !! check email-box for verification link or ")
         }
     
@@ -384,12 +385,14 @@ const updateProfile = asyncHandler(async(req, res)=> {
 const addPhone = asyncHandler(async(req, res)=>{
     try {
         const {phone} = req.body;
+        console.log("phone: ", phone)
         const user = await User.findById(req.user._id);
-        if(user.phone === undefined){
-            throw new ApiError(400).json("Phone number linked to this account already exists !")
+        if(user.phone !== undefined){
+            throw new ApiError(400, "Phone number linked to this account already exists !")
         }
         user.phone = phone;
         await user.save({validateBeforeSave:false})
+        console.log("phone added successfully !!")
         res.status(200).json(new ApiResponse(200, {}, "phone number added"))
     } catch (error) {
         res.status(error.status || 500).json(error.message || "Error adding phone number !!")
@@ -429,6 +432,7 @@ const verifyPhoneOtp = asyncHandler(async(req, res)=> {
     
         user.otp = undefined;
         user.otpExpiry = undefined;
+        user.isPhoneVerified = true;
         await user.save({validateBeforeSave:false})
         res.status(200).json(new ApiResponse(200, {}, "OTP verified successfully"))
     } catch (error) {

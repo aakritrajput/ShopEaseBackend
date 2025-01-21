@@ -14,7 +14,10 @@ const app = express();
     }
 })();
 
+// importing routes 
+
 import userRoutes from "./routes/user.routes.js"
+import cartRoutes from "./routes/cart.routes.js"
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -25,6 +28,8 @@ app.use(express.urlencoded({extended: true, limit: "25kb"}))
 app.use(express.static("public"));
 app.use(cookieParser());
 
+// decclaring routes
 app.use("/api/v1/user", userRoutes);
+app.use("/api/v1/cart", cartRoutes)
 
 export {app};
