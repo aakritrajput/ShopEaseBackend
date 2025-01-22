@@ -75,3 +75,19 @@ const getUserWishlist = asyncHandler(async(req, res)=>{
         res.status(error.statusCode || 500).json(error.message || "Error getting users wishlist !!")
     }
 })
+
+const emptyWishlist = asyncHandler(async(req, res)=>{
+    try {
+        const wishlist = await Wishlist.updateOne({userId: req.user._id}, {products: []}, {new: true})
+        res.status(200).json(new ApiResponse(200, wishlist, "successfully empty out users wishlist !!"))
+    } catch (error) {
+        res.status(error.statusCode || 500).json(error.message || "An error occurred while emptying out the wishlist.")
+    }
+})
+
+export {
+    addToWishlist,
+    removeFromWishlist,
+    getUserWishlist,
+    emptyWishlist
+}

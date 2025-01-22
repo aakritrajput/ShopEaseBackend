@@ -18,6 +18,8 @@ const app = express();
 
 import userRoutes from "./routes/user.routes.js"
 import cartRoutes from "./routes/cart.routes.js"
+import reviewRoutes from "./routes/review.routes.js"
+import wishlistRoutes from "./routes/wishlist.routes.js"
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -30,6 +32,8 @@ app.use(cookieParser());
 
 // decclaring routes
 app.use("/api/v1/user", userRoutes);
-app.use("/api/v1/cart", cartRoutes)
+app.use("/api/v1/cart", cartRoutes);
+app.use("/api/v1/review", reviewRoutes);
+app.use("./api/v1/wishlist", wishlistRoutes);
 
 export {app};

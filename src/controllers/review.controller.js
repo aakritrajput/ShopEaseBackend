@@ -65,11 +65,9 @@ const editReview = asyncHandler(async(req, res)=>{
     }
 })
 
-
 const deleteReview = asyncHandler(async(req, res)=>{
     try {
         const {productId} = req.params
-
         const deletedReview = await Review.findOneAndDelete({
             userId: req.user._id,
             productId
@@ -119,3 +117,10 @@ const getProductReviews = asyncHandler(async(req, res)=>{
         res.status(error.statusCode).json(error.message || "Error getting product reviews !!")
     }
 })
+
+export {
+    addReview,
+    editReview,
+    deleteReview,
+    getProductReviews
+}
