@@ -5,15 +5,6 @@ import { Product } from "../models/sqlModels/product.model.js"
 import { uploadOnCloudinary } from "../utils/cloudinary.utils.js"
 import { Category } from "../models/sqlModels/category.model.js"
 
-// add a product  --> title , images , description , price , categories , stock , seller 
-// change product stock 
-// delete product from site !! 
-// get / search all products based on query || based on category --> search && also implement filter by price || rating || stock
-// get all products --> pagination 
-// get sellers all product 
-// get a product 
-// update product details !!
-
 const addProduct = asyncHandler(async(req, res)=>{
     try {
         const {name, price, description, stock=1, category} = req.body ;
@@ -212,12 +203,31 @@ const getSellersAllProducts = asyncHandler(async(req, res)=>{
 const getProduct = asyncHandler(async(req, res)=>{
     try {
         const { productId } = req.params ;
-        
-        res.status(200).json(new ApiResponse(200, resData, "successfully fetched the given product!!"))
-
+        const product = await Product.findByPk(productId);
+        res.status(200).json(new ApiResponse(200, product, "successfully fetched the given product!!"))
     } catch (error) {
         res.status(error.statusCode || 500).json(error.message || "Error getting the given product  !!")
     }
 })
 
-export { addProduct }
+const updateProductDetails = asyncHandler(async(req, res)=>{
+    try {
+        const { productId } = req.params ;
+        const {name, price, description, stock=1, category} = req.body ;
+        const product = await Product.findByPk(productId);
+
+        product.name = name ? name : product.name ;
+        product.price = price ? price : product.price ;
+        product.description = description ? description : product.description ;
+        product.stock = stock ? stock : product.stock ;
+        product.category = category ? category : product.category ;
+
+        await product.save({validate:false})
+
+        res.status(200).json(new ApiResponse(200, product, "Successfully updated the details of given product!!"))
+    } catch (error) {
+        res.status(error.statusCode || 500).json(error.message || "Error updating the details of given product  !!")
+    }
+})
+
+export { addProduct,  updateStock , deleteProduct, searchProduct, getAllProducts, getSellersAllProducts, getProduct, updateProductDetails}
