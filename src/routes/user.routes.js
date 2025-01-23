@@ -16,7 +16,8 @@ import {
     addPhone,
     sendPhoneOtp,
     verifyPhoneOtp,
-    getUserNotificaton
+    getUserNotificaton,
+    updateToSeller
 } from "../controllers/user.controller.js"
 import { verifyJWT } from "../middlewares/auth.middleware.js";
 
@@ -39,5 +40,6 @@ router.route("/addPhone").post(verifyJWT, addPhone)
 router.route("/sendPhoneOtp").post(verifyJWT, sendPhoneOtp)
 router.route("/verifyPhoneOtp").post(verifyJWT,verifyPhoneOtp)
 router.route("/userNotifications").get(verifyJWT, getUserNotificaton)
+router.route("/updateToSeller").patch(verifyJWT, updateToSeller)
 
 export default router ;

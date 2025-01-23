@@ -22,8 +22,15 @@ const Product = sequelize.define('Product', {
         type: DataTypes.INTEGER,
         defaultValue: 0
     },
-    image: {
-        type: DataTypes.JSON
+    images: {
+        type: DataTypes.JSON    //{url: "", publickey: ""}
+    },
+    category: {
+        type: DataTypes.STRING
+    },
+    seller : {
+        type: DataTypes.STRING,
+        allowNull: false
     }
 },{timestamps: true})
 

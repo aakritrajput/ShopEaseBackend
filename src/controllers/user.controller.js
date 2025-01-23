@@ -449,6 +449,23 @@ const getUserNotificaton = asyncHandler(async(req, res)=> {
     }
 })
 
+const updateToSeller = asyncHandler(async(req, res)=>{
+    try {
+        const seller = await User.findByIdAndUpdate(
+            req.user._id,
+            {
+                role: 'seller'
+            },
+            {
+                new: true
+            }
+        )
+        res.status(200).json(new ApiResponse(200, seller , "successfully updated user to seller !!"))
+    } catch (error) {
+        res.status(error.statusCode || 500).json(error.message || "Error updating user to seller")
+    }
+})
+
 export {
     registerUser,
     verifyToken,
@@ -466,5 +483,6 @@ export {
     addPhone,
     sendPhoneOtp,
     verifyPhoneOtp,
-    getUserNotificaton
+    getUserNotificaton,
+    updateToSeller
 }

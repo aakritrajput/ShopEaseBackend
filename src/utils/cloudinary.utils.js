@@ -24,21 +24,25 @@ const uploadOnCloudinary = async (filePath) => {
     }
 }
 
-const deleteFromCloudinary = async (url) => {
+const deleteFromCloudinary = async (publicId) => {
     try {
-        const extractPublicId = (url) => { 
-            const urlParts = url.split('/'); 
-            const fileNameWithExt = urlParts[urlParts.length - 1]; // e.g., sample.jpg 
-            const fileName = fileNameWithExt.split('.')[0]; // e.g., sample 
-            return fileName; 
-            }; 
-            const publicId = extractPublicId(url); 
-            cloudinary.uploader.destroy(publicId, function(result) { 
-                console.log(result); 
-            });
+        cloudinary.uploader.destroy(publicId, function(result) { 
+            console.log(result); 
+        });
     } catch (error) {
         throw new ApiError(500, "unable to delete video from cloudinary")
     }
 }
 
-export {uploadOnCloudinary, deleteFromCloudinary};
+const deleteMultipleFiles = async (publicIds) => {
+    try {
+      const result = await cloudinary.api.delete_resources(publicIds);
+      console.log('Deleted files:', result);
+      return result;
+    } catch (error) {
+      console.error('Error deleting files:', error);
+      throw error;
+    }
+};
+
+export {uploadOnCloudinary, deleteFromCloudinary, deleteMultipleFiles};
