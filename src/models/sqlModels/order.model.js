@@ -38,7 +38,6 @@ const Order = sequelize.define('Order', {
         type: DataTypes.JSON,
         allowNull: false
     }
-
 },{timestamps: true})
 
 export { Order };

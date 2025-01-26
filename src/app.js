@@ -22,6 +22,7 @@ import reviewRoutes from "./routes/review.routes.js"
 import wishlistRoutes from "./routes/wishlist.routes.js"
 import productRoutes from "./routes/product.routes.js"
 import categoryRoutes from "./routes/category.routes.js"
+import orderRoutes from "./routes/order.routes.js"
 
 app.use(cors({
     origin: process.env.CORS_ORIGIN,
@@ -39,5 +40,6 @@ app.use("/api/v1/review", reviewRoutes);
 app.use("/api/v1/wishlist", wishlistRoutes);
 app.use("/api/v1/product", productRoutes);
 app.use("/api/v1/category", categoryRoutes);
+app.use("/api/v1/order", orderRoutes);
 
 export {app};
