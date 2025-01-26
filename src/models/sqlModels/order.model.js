@@ -12,15 +12,15 @@ const Order = sequelize.define('Order', {
         allowNull: false
     },
     status: {
-        type: DataTypes.STRING,
-        defaultValue: 'pending', // pending, completed, canceled
+        type: DataTypes.ENUM("pending", "placed", "Shipped", "Delivered", "Cancelled"),
+        defaultValue: 'pending'
     },
     totalAmount: {
         type: DataTypes.FLOAT,
         allowNull: false,
     },
     paymentStatus: {
-        type: DataTypes.STRING,
+        type: DataTypes.ENUM("unpaid", "paid", "failed", "refunded"),
         defaultValue: 'unpaid', // unpaid, paid
     },
     address: {

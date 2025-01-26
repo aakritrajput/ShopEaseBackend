@@ -4,6 +4,6 @@ import { createCategory, deleteCategory } from "../controllers/category.controll
 
 const router = Router();
 router.route("/createCategory").post(verifyJWT, createCategory);
-router.route("/deleteCategory/:categoryId").delete(verifyJWT, deleteCategory);
+router.route("/deleteCategory/:categoryId").delete(verifyJWT, deleteCategory); 
 
 export default router ;
