@@ -4,6 +4,8 @@
 ShopEase is a **complete backend for an e-commerce application**. It provides a robust set of APIs for user authentication, product management, orders, cart, notifications, wishlist, reviews, categories, and payments. The payment gateway integration is planned for a future update.
 
 ## 🛠 Tech Stack
+- **OTP & Messaging:** Twilio
+- **Emails:** Nodemailer
 - **Backend:** Node.js, Express.js
 - **Databases:** MySQL (Sequelize ORM), MongoDB (Mongoose ODM)
 - **Authentication:** JWT (JSON Web Token)
